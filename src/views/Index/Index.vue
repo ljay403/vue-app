@@ -9,8 +9,8 @@
       </div>
     </div>
     <div class="bottom-content">
-      <!-- <div class="brain-content" @click="brainClick"></div> -->
-      <div class="container button">
+      <div class="brain-content" @click="brainClick"></div>
+      <!-- <div class="container button">
         <el-row :gutter="20" style="margin-bottom: 30px;">
           <el-col :span="8">
             <el-button @click="buttonClick('weatherstation')">气象站</el-button>
@@ -33,7 +33,7 @@
             <el-button @click="buttonClick('brain')">智慧大脑</el-button>
           </el-col>
         </el-row>
-      </div>
+      </div> -->
       
       <x-warning class="warning-content"></x-warning>
     </div>  
