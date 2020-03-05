@@ -32,14 +32,14 @@
         <i class="el-icon-video-camera"></i>
         <span slot="title">现场监控</span>
       </el-menu-item>
-      <el-menu-item index="remotecontrol">
+      <!-- <el-menu-item index="remotecontrol">
         <i class="el-icon-setting"></i>
         <span slot="title">远程控制台</span>
-      </el-menu-item>
-      <el-menu-item index="brain">
+      </el-menu-item> -->
+      <!-- <el-menu-item index="brain">
         <i class="el-icon-cpu"></i>
         <span slot="title">智慧农业大脑</span>
-      </el-menu-item>
+      </el-menu-item> -->
     </el-menu>
   </div>
 </template>
