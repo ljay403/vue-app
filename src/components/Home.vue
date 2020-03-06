@@ -48,7 +48,7 @@ export default {
       this.axios({
         // url:
         //   "http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getrealtimedata",
-        url: "http://localhost:3000/api/fdId",
+        // url: "http://localhost:3000/api/fdId",
         params: {
           token: localStorage.getItem("user_token")
         }
@@ -95,7 +95,8 @@ export default {
             this.$store.commit("getAccessToken", res.data.data.accessToken);
             this.getCameraList(this.$store.state.userInfo.accessToken);
           } else {
-            alert(res.data.msg);
+            // alert(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
         .catch(err => {

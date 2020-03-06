@@ -65,8 +65,9 @@ export default {
         alert("名称不能为空");
       } else {
         this.axios({
-          url:
-            "http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.changename",
+          // url:
+          //   "http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.changename",
+          url: "http://localhost:3000/api/changeName",
           params: {
             token: localStorage.getItem("user_token"),
             name: this.form.newName

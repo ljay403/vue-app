@@ -44,12 +44,17 @@ export default {
     // 提交表单
     submitForm() {
       if (this.param.account === "" || this.param.password === "") {
-        alert("账号或密码不能为空");
+        this.$message.error("账号和密码不能为空");
       } else {
         this.axios({
+          method: "post",
           // url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.loginUser1',
           url: "http://localhost:3000/api/login",
-          params: {
+          // params: {
+          //   account: this.param.account,
+          //   password: this.param.password
+          // }
+          data: {
             account: this.param.account,
             password: this.param.password
           }
@@ -59,9 +64,10 @@ export default {
             if (res.data.appcode === "1") {
               // localStorage.setItem("user_token", res.data.data.token);
               localStorage.setItem("user_token", res.data.token);
+              this.$message.success(res.data.appmsg);
               this.$router.push("/");
             } else if (res.data.appcode === "-1") {
-              alert(res.data.appmsg);
+              this.$message.error(res.data.appmsg);
             }
           })
           .catch(err => {
