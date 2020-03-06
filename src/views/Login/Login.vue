@@ -13,7 +13,8 @@
             type="password"
             placeholder="输入密码"
             v-model="param.password"
-            @keyup.enter.native="submitForm()">
+            @keyup.enter.native="submitForm()"
+          >
             <el-button slot="prepend" icon="el-icon-lock"></el-button>
           </el-input>
         </el-form-item>
@@ -30,8 +31,8 @@ export default {
   data() {
     return {
       param: {
-        account: '',
-        password: ''
+        account: "",
+        password: ""
       },
       rules: {
         account: [{ required: true, message: "请输入用户名", trigger: "blur" }],
@@ -42,28 +43,32 @@ export default {
   methods: {
     // 提交表单
     submitForm() {
-      if (this.param.account === '' || this.param.password === '') {
-        alert('账号或密码不能为空');
+      if (this.param.account === "" || this.param.password === "") {
+        alert("账号或密码不能为空");
       } else {
         this.axios({
-          url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.loginUser1',
+          // url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.loginUser1',
+          url: "http://localhost:3000/api/login",
           params: {
             account: this.param.account,
             password: this.param.password
           }
-        }).then(res => {
-          // console.log(res);
-          if (res.data.appcode === '1') {
-            localStorage.setItem("user_token", res.data.data.token);
-            this.$router.push("/");
-          } else if (res.data.appcode === '-1') {
-            alert(res.data.appmsg);
-          }
-        }).catch(err => {
-          console.log(err)
         })
+          .then(res => {
+            // console.log(res);
+            if (res.data.appcode === "1") {
+              // localStorage.setItem("user_token", res.data.data.token);
+              localStorage.setItem("user_token", res.data.token);
+              this.$router.push("/");
+            } else if (res.data.appcode === "-1") {
+              alert(res.data.appmsg);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
-    },
+    }
   }
 };
 </script>

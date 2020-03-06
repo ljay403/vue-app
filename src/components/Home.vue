@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import XHeader from './Header.vue';
-import XSidebar from './Sidebar.vue';
-import qs from 'qs';
+import XHeader from "./Header.vue";
+import XSidebar from "./Sidebar.vue";
+import qs from "qs";
 
 export default {
   components: {
@@ -24,83 +24,103 @@ export default {
     // 获得信息(坐标、名称等)
     getInfo() {
       this.axios({
-        url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getaccountCoordinate',
+        // url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getaccountCoordinate',
+        url: "http://localhost:3000/api/info",
         params: {
-          token: localStorage.getItem('user_token')
+          token: localStorage.getItem("user_token")
         }
-      }).then(res => {
-        // console.log(res);
-        this.$store.commit('getUserInfo', res.data.data1[0]);
-        this.$store.commit('getOthersInfo', res.data.data);
-        this.$store.commit('mapReady');
-      }).catch(err => {
-        console.log(err)
       })
+        .then(res => {
+          // console.log(res);
+          // this.$store.commit("getUserInfo", res.data.data1[0]);
+          // this.$store.commit("getOthersInfo", res.data.data);
+          this.$store.commit("getUserInfo", res.data.userInfo);
+          this.$store.commit("getOthersInfo", res.data.othersInfo);
+          this.$store.commit("mapReady");
+        })
+        .catch(err => {
+          console.log(err);
+          this.$store.commit("mapReady");
+        });
     },
     // 获得用户的所有硬件id
     getId() {
       this.axios({
-        url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getrealtimedata',
+        // url:
+        //   "http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getrealtimedata",
+        url: "http://localhost:3000/api/fdId",
         params: {
-          token: localStorage.getItem('user_token')
+          token: localStorage.getItem("user_token")
         }
-      }).then(res => {
-        // console.log(res);
-        this.$store.commit('getUserId', res.data.data);
-      }).catch(err => {
-        console.log(err)
       })
+        .then(res => {
+          // console.log(res);
+          // this.$store.commit("getUserId", res.data.data);
+          this.$store.commit("getUserId", res.data.fd_id);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     // 获得用户的key和secret
     getKey() {
       this.axios({
-        url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getmonitor',
+        // url:
+        //   "http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getmonitor",
+        url: "http://localhost:3000/api/key",
         params: {
-          token: localStorage.getItem('user_token')
+          token: localStorage.getItem("user_token")
         }
-      }).then(res => {
-        // console.log(res);
-        this.getAccessToken(res.data.data[0].key, res.data.data[0].secret);
-      }).catch(err => {
-        console.log(err)
       })
+        .then(res => {
+          // console.log(res);
+          // this.getAccessToken(res.data.data[0].key, res.data.data[0].secret);
+          this.getAccessToken(res.data.key, res.data.secret);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     // 获得监控accessToken
     getAccessToken(key, secret) {
       this.axios({
-        method: 'post',
-        url: 'https://open.ys7.com/api/lapp/token/get',
-        data: qs.stringify({appKey: key, appSecret: secret}),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).then(res => {
-        // console.log(res);
-        if (res.data.code == '200') {
-          this.$store.commit('getAccessToken', res.data.data.accessToken);
-          this.getCameraList(this.$store.state.userInfo.accessToken);
-        } else {
-          alert(res.data.msg);
-        }
-      }).catch(err => {
-        console.log(err)
+        method: "post",
+        url: "https://open.ys7.com/api/lapp/token/get",
+        data: qs.stringify({ appKey: key, appSecret: secret }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
       })
+        .then(res => {
+          // console.log(res);
+          if (res.data.code == "200") {
+            this.$store.commit("getAccessToken", res.data.data.accessToken);
+            this.getCameraList(this.$store.state.userInfo.accessToken);
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     // 获得摄像头列表
     getCameraList(token) {
       this.axios({
-        method: 'post',
-        url: 'https://open.ys7.com/api/lapp/camera/list',
-        data: qs.stringify({accessToken: token}),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).then(res => {
-        // console.log(res);
-        if (res.data.code == '200') {
-          this.$store.commit('getCameraList', res.data.data);
-        } else {
-          alert(res.data.msg);
-        }
-      }).catch(err => {
-        console.log(err)
+        method: "post",
+        url: "https://open.ys7.com/api/lapp/camera/list",
+        data: qs.stringify({ accessToken: token }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }
       })
+        .then(res => {
+          // console.log(res);
+          if (res.data.code == "200") {
+            this.$store.commit("getCameraList", res.data.data);
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   created() {
@@ -108,8 +128,7 @@ export default {
     this.getId();
     this.getKey();
   }
-}
-
+};
 </script>
 
 <style>

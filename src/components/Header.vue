@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="collapse-btn" @click="collapseChage">
-      <i v-if="this.$store.state.userInfo.collapse" class="el-icon-s-fold"></i>
+      <i v-if="this.$store.state.collapse" class="el-icon-s-fold"></i>
       <i v-else class="el-icon-s-unfold"></i>
     </div>
     <div class="logo">智慧植物工厂云平台</div>
@@ -37,85 +37,88 @@ export default {
     return {
       dialogFormVisible: false,
       form: {
-        newName: ''
+        newName: ""
       }
-    }
+    };
   },
   methods: {
     // 侧边栏折叠
     collapseChage() {
-      this.$store.commit('collapseChage')
+      this.$store.commit("collapseChage");
     },
     // 用户名下拉菜单选择事件
     handleCommand(command) {
       // 修改名称
-      if (command == 'changeName') {
-        this.dialogFormVisible = true
+      if (command == "changeName") {
+        this.dialogFormVisible = true;
       }
       // 退出登录
-      else if (command == 'loginOut') {
-        localStorage.removeItem('user_token');
+      else if (command == "loginOut") {
+        localStorage.removeItem("user_token");
         // 刷新页面
         this.$router.go(0);
       }
     },
     // 提交修改名称表单
     changeName() {
-      if (this.form.newName === '') {
-        alert('名称不能为空');
+      if (this.form.newName === "") {
+        alert("名称不能为空");
       } else {
         this.axios({
-          url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.changename',
+          url:
+            "http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.changename",
           params: {
-            token: localStorage.getItem('user_token'),
+            token: localStorage.getItem("user_token"),
             name: this.form.newName
           }
-        }).then(res => {
-          console.log(res);
-          if (res.data.appcode == '1') {
-            this.dialogFormVisible = false;
-            // 刷新页面
-            this.$router.go(0);
-          }
-        }).catch(err => {
-          console.log(err)
         })
+          .then(res => {
+            console.log(res);
+            if (res.data.appcode == "1") {
+              this.dialogFormVisible = false;
+              // 刷新页面
+              this.$router.go(0);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     },
     // 更改用户名称
     changeUserName(name) {
-      this.$store.commit('changeUserName', name);
+      this.$store.commit("changeUserName", name);
     }
   }
-}
+};
 </script>
 
 <style scoped>
-  .collapse-btn {
-    float: left;
-    padding: 0 21px;
-    cursor: pointer;
-    line-height: 70px;
-  }
-  .header {
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
-    height: 70px;
-    font-size: 22px;
-    color: #fff;
-    background-color: #242f42;
-  }
-  .logo {
-    float: left;
-    line-height: 70px;
-  }
-  .id {
-    float: right;
-    margin-right: 20px;
-    line-height: 70px;
-    font-size: 20px;
-    color: #fff;
-    cursor: pointer;
-  }
+.collapse-btn {
+  float: left;
+  padding: 0 21px;
+  cursor: pointer;
+  line-height: 70px;
+}
+.header {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 70px;
+  font-size: 22px;
+  color: #fff;
+  background-color: #242f42;
+}
+.logo {
+  float: left;
+  line-height: 70px;
+}
+.id {
+  float: right;
+  margin-right: 20px;
+  line-height: 70px;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+}
 </style>
