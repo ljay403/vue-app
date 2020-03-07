@@ -11,7 +11,7 @@
     >
       <el-table-column prop="fd_id" label="设备ID" align="center"></el-table-column>
       <el-table-column prop="area" label="区域" align="center"></el-table-column>
-      <el-table-column prop="state" label="预警参数" align="center"></el-table-column>
+      <el-table-column prop="name" label="预警参数" align="center"></el-table-column>
       <el-table-column prop="value" label="数值" align="center"></el-table-column>
     </el-table>
   </el-card>
@@ -38,7 +38,7 @@ export default {
         }
       })
         .then(res => {
-          // console.log(res);
+          console.log(res);
           this.warning = [];
           // this.warning = res.data.data;
           this.warning = res.data;
@@ -52,7 +52,7 @@ export default {
     this.getWarning();
     // 每10秒更新一次数据
     this.update = setInterval(() => {
-      console.log("更新数据！");
+      // console.log("更新数据！");
       this.getWarning();
     }, 10000);
   },

@@ -20,7 +20,9 @@ import {
   DropdownMenu,
   DropdownItem,
   Dialog,
-  Message
+  Message,
+  Select,
+  Option
 } from "element-ui";
 
 Vue.use(Button);
@@ -43,4 +45,6 @@ Vue.use(Dropdown);
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
 Vue.use(Dialog);
+Vue.use(Select);
+Vue.use(Option);
 Vue.prototype.$message = Message;
