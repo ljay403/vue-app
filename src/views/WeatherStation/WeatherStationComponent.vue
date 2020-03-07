@@ -1,19 +1,23 @@
 <template>
   <el-card shadow="hover">
     <div slot="header">
-      <span>{{this.info.jiqiname}}</span>
+      <span>气象站{{this.info.fd_id}}</span>
     </div>
     <el-row :gutter="20">
       <el-col :span="10">
-        <el-table :data="weatherStationState" :header-cell-style="{background:'#f5f7fa'}" border class="weather-station-table">
+        <el-table
+          :data="weatherStationState"
+          :header-cell-style="{background:'#f5f7fa'}"
+          border
+          class="weather-station-table"
+        >
           <el-table-column label="参数" align="center">
             <template slot-scope="scope">
               <el-button
                 type="text"
                 @click="stateClick(scope)"
-                v-if="scope.row.key != 'winddirection' && scope.row.value !== ''">
-                {{scope.row.name}}
-              </el-button>
+                v-if="scope.row.key != 'winddirection' && scope.row.value !== ''"
+              >{{scope.row.name}}</el-button>
               <span v-else>{{scope.row.name}}</span>
             </template>
           </el-table-column>
@@ -22,14 +26,15 @@
       </el-col>
       <el-col :span="14">
         <el-date-picker
-        v-model="activeDate"
-        value-format="yyyy-MM-dd"
-        type="date"
-        placeholder="选择日期"
-        size="small"
-        class="date-picker"
-        @change="dateClick"></el-date-picker>
-        <div class="chart" :id="info.fd_id+info.species"></div>
+          v-model="activeDate"
+          value-format="yyyy-MM-dd"
+          type="date"
+          placeholder="选择日期"
+          size="small"
+          class="date-picker"
+          @change="dateClick"
+        ></el-date-picker>
+        <div class="chart" :id="info.fd_id"></div>
       </el-col>
     </el-row>
   </el-card>
@@ -41,6 +46,7 @@ const echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/line");
 // 以下的组件按需引入
 require("echarts/lib/component/tooltip"); // tooltip组件
+require("echarts/lib/component/dataZoom"); // dataZoom组件
 
 export default {
   props: {
@@ -71,9 +77,24 @@ export default {
           boundaryGap: false,
           data: []
         },
+        dataZoom: [
+          {
+            type: "slider", //图表下方的伸缩条
+            show: true, //是否显示
+            realtime: true, //拖动时，是否实时更新系列的视图
+            start: 0, //伸缩条开始位置（1-100），可以随时更改
+            end: 100 //伸缩条结束位置（1-100），可以随时更改
+          },
+          {
+            type: "inside",
+            start: 0, //伸缩条开始位置（1-100），可以随时更改
+            end: 100 //伸缩条结束位置（1-100），可以随时更改
+          }
+        ],
         yAxis: {
           name: "温度",
           type: "value",
+          scale: true // y轴自适应范围
           // y轴单位
           // axisLabel:{formatter:'{value} %'}
         },
@@ -84,40 +105,48 @@ export default {
           }
         ]
       }
-    }
+    };
   },
   computed: {
     // 气象站参数
     weatherStationState() {
-      return [{
-        name: '降雨量',
-        key: 'rainfall',
-        value: this.info.rainfall
-      },{
-        name: '光照度',
-        key: 'illuminance',
-        value: this.info.illuminance
-      },{
-        name: '温度',
-        key: 'temperature',
-        value: this.info.temperature
-      },{
-        name: '风速',
-        key: 'windspeed',
-        value: this.info.windspeed
-      },{
-        name: '湿度',
-        key: 'humidity',
-        value: this.info.humidity
-      },{
-        name: '气压',
-        key: 'pressure',
-        value: this.info.pressure
-      },{
-        name: '风向',
-        key: 'winddirection',
-        value: this.info.winddirection
-      }]
+      return [
+        {
+          name: "降雨量",
+          key: "rainfall",
+          value: this.info.rainfall
+        },
+        {
+          name: "光照度",
+          key: "illuminance",
+          value: this.info.illuminance
+        },
+        {
+          name: "温度",
+          key: "temperature",
+          value: this.info.temperature
+        },
+        {
+          name: "风速",
+          key: "windspeed",
+          value: this.info.windspeed
+        },
+        {
+          name: "湿度",
+          key: "humidity",
+          value: this.info.humidity
+        },
+        {
+          name: "气压",
+          key: "pressure",
+          value: this.info.pressure
+        },
+        {
+          name: "风向",
+          key: "winddirection",
+          value: this.info.winddirection
+        }
+      ];
     }
   },
   methods: {
@@ -127,26 +156,32 @@ export default {
       this.option.xAxis.data = [];
       this.option.series[0].data = [];
       this.axios({
-        url: "http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getDataswqx",
+        // url:
+        //   "http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getDataswqx",
+        url: "http://localhost:3000/api/deviceInfoDate",
         params: {
-          token: localStorage.getItem('user_token'),
+          token: localStorage.getItem("user_token"),
+          type: "device_weather",
           fd_id: id,
           date: date
         }
-      }).then(res => {
-        // console.log(res);
-        for (let i in res.data.data) {
-          this.option.xAxis.data[i] = res.data.data[i].date.substr(11, 8);
-          this.option.series[0].data[i] = res.data.data[i][key];
-        }
-        this.draw();
-      }).catch(err => {
-        console.log(err);
-      });
+      })
+        .then(res => {
+          // console.log(res.data);
+          for (let i in res.data) {
+            this.option.xAxis.data[i] = res.data[i].date.substr(11, 8);
+            this.option.series[0].data[i] = res.data[i][key];
+          }
+          // console.log(this.option);
+          this.draw();
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     // 绘制折线图
     draw() {
-      const myChart = echarts.init(document.getElementById(this.info.fd_id + this.info.species));
+      const myChart = echarts.init(document.getElementById(this.info.fd_id));
       myChart.setOption(this.option);
     },
     // 获得当前时间
@@ -176,18 +211,18 @@ export default {
     dateClick() {
       // console.log(this.activeDate);
       this.getChartData(this.info.fd_id, this.activeKey, this.activeDate);
-    },
+    }
   },
   mounted() {
     this.activeDate = this.getNowDate();
     this.getChartData(this.info.fd_id, this.activeKey, this.activeDate);
   }
-}
+};
 </script>
 
 <style scoped>
-  /* 必须在组件内部就给高度，因为先渲染组件 */
-  .chart {
-    height: 450px;
-  }
+/* 必须在组件内部就给高度，因为先渲染组件 */
+.chart {
+  height: 450px;
+}
 </style>

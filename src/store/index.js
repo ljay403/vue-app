@@ -1,21 +1,21 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     // 用户信息
     userInfo: {
       // 用户名称
-      name: '',
+      name: "",
       // 经纬度
-      lon: '',
-      lat: '',
-      // 设备id
-      id: [],
+      lon: "",
+      lat: "",
+      // // 设备id
+      // id: [],
       // 萤石云平台AccessToken
-      accessToken: '',
+      accessToken: "",
       // 摄像头列表
       cameraList: []
     },
@@ -31,7 +31,7 @@ export default new Vuex.Store({
   mutations: {
     // 修改用户名称
     changeUserName(state, payload) {
-      state.userInfo.name = payload
+      state.userInfo.name = payload;
     },
     // 获得用户信息
     getUserInfo(state, payload) {
@@ -45,13 +45,13 @@ export default new Vuex.Store({
       state.othersInfo = payload;
       // console.log(state.otherUserInfo);
     },
-    // 获得用户的所有硬件id
-    getUserId(state, payload) {
-      state.userInfo.id = payload;
-    },
+    // // 获得用户的所有硬件id
+    // getUserId(state, payload) {
+    //   state.userInfo.id = payload;
+    // },
     // 折叠/拉出左侧菜单
     collapseChage(state) {
-      state.collapse = !state.collapse
+      state.collapse = !state.collapse;
     },
     // 地图准备就绪
     mapReady(state) {
@@ -70,8 +70,6 @@ export default new Vuex.Store({
       state.videoFlag = true;
     }
   },
-  actions: {
-  },
-  modules: {
-  }
-})
+  actions: {},
+  modules: {}
+});

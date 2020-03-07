@@ -2,7 +2,9 @@
   <div class="soil">
     <div class="crumbs">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item><i class="el-icon-tickets"></i> 土壤指标</el-breadcrumb-item>
+        <el-breadcrumb-item>
+          <i class="el-icon-tickets"></i> 土壤指标
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div v-if="soilFlag" class="content">
@@ -16,7 +18,7 @@
 </template>
 
 <script>
-import XSoil from './SoilComponent.vue'
+import XSoil from "./SoilComponent.vue";
 
 export default {
   components: {
@@ -30,47 +32,54 @@ export default {
       soilState: [],
       // 定时器的名称
       update: null
-    }
+    };
   },
   methods: {
     // 获得土壤指标实时数据
     getSoilState() {
       this.axios({
-        url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getrealtimedata',
+        // url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getrealtimedata',
+        // params: {
+        //   token: localStorage.getItem('user_token')
+        // }
+        url: "http://localhost:3000/api/deviceInfo",
         params: {
-          token: localStorage.getItem('user_token')
+          token: localStorage.getItem("user_token"),
+          type: "device_soil"
         }
-      }).then(res => {
-        // console.log(res);
-        this.soilState = [];
-        for (let i in res.data.data) {
-          if (res.data.data[i].species == 'oil') {
-            this.soilState.push(res.data.data[i]);
-          }
-        }
-        // console.log(this.soilState);
-        this.soilFlag = true;
-      }).catch(err => {
-        console.log(err)
       })
-    },
+        .then(res => {
+          // console.log(res);
+          this.soilState = [];
+          for (let i in res.data) {
+            // if (res.data.data[i].species == "oil") {
+            this.soilState.push(res.data[i]);
+            // }
+          }
+          // console.log(this.soilState);
+          this.soilFlag = true;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
   activated() {
     this.getSoilState();
     // 每10秒更新一次数据
     this.update = setInterval(() => {
-      console.log('更新数据！');
+      // console.log("更新数据！");
       this.getSoilState();
     }, 10000);
   },
   deactivated() {
     clearInterval(this.update);
   }
-}
+};
 </script>
 
 <style scoped>
-  .row {
-    margin-bottom: 10px;
-  }
+.row {
+  margin-bottom: 10px;
+}
 </style>

@@ -7,7 +7,8 @@
       text-color="#bfcbd9"
       active-text-color="#20a0ff"
       router
-      :collapse="!this.$store.state.collapse">
+      :collapse="!this.$store.state.collapse"
+    >
       <el-menu-item index="index">
         <i class="el-icon-house"></i>
         <span slot="title">系统首页</span>
@@ -35,11 +36,11 @@
       <!-- <el-menu-item index="remotecontrol">
         <i class="el-icon-setting"></i>
         <span slot="title">远程控制台</span>
-      </el-menu-item> -->
-      <!-- <el-menu-item index="brain">
+      </el-menu-item>-->
+      <el-menu-item index="brain">
         <i class="el-icon-cpu"></i>
         <span slot="title">智慧农业大脑</span>
-      </el-menu-item> -->
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -48,28 +49,28 @@
 export default {
   computed: {
     onRoutes() {
-      return this.$route.path.replace('/', '');
+      return this.$route.path.replace("/", "");
     }
-  },
-}
+  }
+};
 </script>
 
 <style scoped>
-  .sidebar {
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 70px;
-    bottom: 0;
-    overflow-y: scroll;
-  }
-  .sidebar::-webkit-scrollbar {
-      width: 0;
-  }
-  .sidebar-el-menu:not(.el-menu--collapse) {
-    width: 250px;
-  }
-  .sidebar-el-menu {
-    height: 100%;
-  }
+.sidebar {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 70px;
+  bottom: 0;
+  overflow-y: scroll;
+}
+.sidebar::-webkit-scrollbar {
+  width: 0;
+}
+.sidebar-el-menu:not(.el-menu--collapse) {
+  width: 250px;
+}
+.sidebar-el-menu {
+  height: 100%;
+}
 </style>

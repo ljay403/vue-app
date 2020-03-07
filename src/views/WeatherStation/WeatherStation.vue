@@ -51,9 +51,9 @@ export default {
         .then(res => {
           // console.log(res);
           this.weatherStationState = [];
-          for (let i in res.data.data) {
+          for (let i in res.data) {
             // if (res.data.data[i].species == "weather_station") {
-            this.weatherStationState.push(res.data.data[i]);
+            this.weatherStationState.push(res.data[i]);
             // }
           }
           // console.log(this.weatherStationState);

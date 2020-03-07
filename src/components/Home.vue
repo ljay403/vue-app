@@ -43,25 +43,25 @@ export default {
           this.$store.commit("mapReady");
         });
     },
-    // 获得用户的所有硬件id
-    getId() {
-      this.axios({
-        // url:
-        //   "http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getrealtimedata",
-        // url: "http://localhost:3000/api/fdId",
-        params: {
-          token: localStorage.getItem("user_token")
-        }
-      })
-        .then(res => {
-          // console.log(res);
-          // this.$store.commit("getUserId", res.data.data);
-          this.$store.commit("getUserId", res.data.fd_id);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+    // // 获得用户的所有硬件id
+    // getId() {
+    //   this.axios({
+    //     // url:
+    //     //   "http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getrealtimedata",
+    //     // url: "http://localhost:3000/api/fdId",
+    //     params: {
+    //       token: localStorage.getItem("user_token")
+    //     }
+    //   })
+    //     .then(res => {
+    //       // console.log(res);
+    //       // this.$store.commit("getUserId", res.data.data);
+    //       this.$store.commit("getUserId", res.data.fd_id);
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
     // 获得用户的key和secret
     getKey() {
       this.axios({
@@ -126,7 +126,7 @@ export default {
   },
   created() {
     this.getInfo();
-    this.getId();
+    // this.getId();
     this.getKey();
   }
 };

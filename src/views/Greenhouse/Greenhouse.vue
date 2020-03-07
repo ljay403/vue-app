@@ -2,7 +2,9 @@
   <div class="greenhouse">
     <div class="crumbs">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item><i class="el-icon-tickets"></i> 温室环境参数</el-breadcrumb-item>
+        <el-breadcrumb-item>
+          <i class="el-icon-tickets"></i> 温室环境参数
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div v-if="greenhouseFlag" class="content">
@@ -16,7 +18,7 @@
 </template>
 
 <script>
-import XGreenhouse from './GreenhouseComponent.vue'
+import XGreenhouse from "./GreenhouseComponent.vue";
 
 export default {
   components: {
@@ -30,47 +32,54 @@ export default {
       greenhouseState: [],
       // 定时器的名称
       update: null
-    }
+    };
   },
   methods: {
     // 获得温室环境参数实时数据
     getGreenhouseState() {
       this.axios({
-        url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getrealtimedata',
+        // url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getrealtimedata',
+        // params: {
+        //   token: localStorage.getItem('user_token')
+        // }
+        url: "http://localhost:3000/api/deviceInfo",
         params: {
-          token: localStorage.getItem('user_token')
+          token: localStorage.getItem("user_token"),
+          type: "device_greenhouse"
         }
-      }).then(res => {
-        // console.log(res);
-        this.greenhouseState = [];
-        for (let i in res.data.data) {
-          if (res.data.data[i].species == 'greenhouse') {
-            this.greenhouseState.push(res.data.data[i]);
-          }
-        }
-        console.log(this.greenhouseState);
-        this.greenhouseFlag = true;
-      }).catch(err => {
-        console.log(err)
       })
-    },
+        .then(res => {
+          // console.log(res);
+          this.greenhouseState = [];
+          for (let i in res.data) {
+            // if (res.data[i].species == "greenhouse") {
+            this.greenhouseState.push(res.data[i]);
+            // }
+          }
+          console.log(this.greenhouseState);
+          this.greenhouseFlag = true;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
   activated() {
     this.getGreenhouseState();
     // 每10秒更新一次数据
     this.update = setInterval(() => {
-      console.log('更新数据！');
+      // console.log("更新数据！");
       this.getGreenhouseState();
     }, 10000);
   },
   deactivated() {
     clearInterval(this.update);
   }
-}
+};
 </script>
 
 <style scoped>
-  .row {
-    margin-bottom: 10px;
-  }
+.row {
+  margin-bottom: 10px;
+}
 </style>

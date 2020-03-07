@@ -41,7 +41,7 @@ export default {
           // console.log(res);
           this.warning = [];
           // this.warning = res.data.data;
-          this.warning = res.data.warning;
+          this.warning = res.data;
         })
         .catch(err => {
           console.log(err);
