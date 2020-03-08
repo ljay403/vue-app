@@ -136,12 +136,17 @@ export default {
     addConfig() {
       let [a, b] = this.form.state.split("|"); // es6 数组解构赋值
       let check = 0;
-      for (let x of this.config) {
-        if (x.state === b) {
-          check = 1;
-          this.$message.error("参数规则已存在");
-          break;
+      if (this.form.value1 && this.form.value2 && b) {
+        for (let x of this.config) {
+          if (x.state === b) {
+            check = 1;
+            this.$message.error("该参数规则已存在");
+            break;
+          }
         }
+      } else {
+        check = 1;
+        this.$message.error("参数和数值不能为空");
       }
       if (check === 0) {
         this.axios({
