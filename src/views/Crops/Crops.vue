@@ -56,7 +56,7 @@ export default {
             this.cropsState.push(res.data[i]);
             // }
           }
-          console.log(this.cropsState);
+          // console.log(this.cropsState);
           this.cropsFlag = true;
         })
         .catch(err => {

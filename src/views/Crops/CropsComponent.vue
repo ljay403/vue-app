@@ -172,7 +172,7 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           for (let i in res.data) {
             this.option.xAxis.data[i] = res.data[i].date.substr(11, 8);
             this.option.series[0].data[i] = res.data[i][key];
@@ -220,6 +220,15 @@ export default {
   mounted() {
     this.activeDate = this.getNowDate();
     this.getChartData(this.info.fd_id, this.activeKey, this.activeDate);
+    // 每10秒更新一次数据
+    this.update = setInterval(() => {
+      console.log("4更新数据！");
+      this.activeDate = this.getNowDate();
+      this.getChartData(this.info.fd_id, this.activeKey, this.activeDate);
+    }, 10000);
+  },
+  deactivated() {
+    clearInterval(this.update);
   }
 };
 </script>

@@ -56,7 +56,7 @@ export default {
             this.greenhouseState.push(res.data[i]);
             // }
           }
-          console.log(this.greenhouseState);
+          // console.log(this.greenhouseState);
           this.greenhouseFlag = true;
         })
         .catch(err => {
