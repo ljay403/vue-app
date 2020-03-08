@@ -62,7 +62,7 @@ export default {
     // 提交修改名称表单
     changeName() {
       if (this.form.newName === "") {
-        alert("名称不能为空");
+        this.$message.error("名称不能为空");
       } else {
         this.axios({
           // url:

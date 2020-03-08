@@ -10,10 +10,10 @@
     <el-row :gutter="20">
       <el-col :span="12">
         <card title="气象站" type="device_weather" :options="optionsWeather" />
-        <card title="温室环境参数" type="device_greenhouse" :options="optionsSoil" />
+        <card title="温室环境参数" type="device_greenhouse" :options="optionsGreenhouse" />
       </el-col>
       <el-col :span="12">
-        <card title="土壤指标" type="device_soil" :options="optionsGreenhouse" />
+        <card title="土壤指标" type="device_soil" :options="optionsSoil" />
         <card title="农作物生长参数" type="device_crops" :options="optionsCrops" />
       </el-col>
     </el-row>

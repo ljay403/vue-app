@@ -14,11 +14,7 @@
       <el-table-column prop="value2" label="最大值" align="center"></el-table-column>
       <el-table-column label="操作" width="180" align="center">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            icon="el-icon-edit"
-            @click="changeConfig(scope.$index, scope.row)"
-          >编辑</el-button>
+          <el-button type="text" icon="el-icon-edit" @click="changeBtn(scope.$index, scope.row)">编辑</el-button>
           <el-button
             type="text"
             icon="el-icon-delete"
@@ -47,13 +43,42 @@
           </el-col>
           <el-col class="line" :span="2">-</el-col>
           <el-col :span="11">
-            <el-input v-model="form.value2" autocomplete="off" placeholder="最大值  "></el-input>
+            <el-input v-model="form.value2" autocomplete="off" placeholder="最大值"></el-input>
           </el-col>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="configFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addConfig(form)">确 定</el-button>
+        <el-button type="primary" @click="addConfig">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- Form End -->
+    <!-- Form Start -->
+    <el-dialog title="编辑规则" :visible.sync="configChangeVisible" width="30%">
+      <el-form :model="changeForm" label-width="auto">
+        <el-form-item label="预警参数">
+          <el-select v-model="changeForm.state" disabled>
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="`${item.label}|${item.value}`"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="安全数值">
+          <el-col :span="11">
+            <el-input v-model="changeForm.value1" autocomplete="off"></el-input>
+          </el-col>
+          <el-col class="line" :span="2">-</el-col>
+          <el-col :span="11">
+            <el-input v-model="changeForm.value2" autocomplete="off"></el-input>
+          </el-col>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="configChangeVisible = false">取 消</el-button>
+        <el-button type="primary" @click="changeConfig">确 定</el-button>
       </div>
     </el-dialog>
     <!-- Form End -->
@@ -66,8 +91,13 @@ export default {
     return {
       config: [],
       configFormVisible: false,
+      configChangeVisible: false,
       form: {
-        name: "",
+        state: "",
+        value1: "",
+        value2: ""
+      },
+      changeForm: {
         state: "",
         value1: "",
         value2: ""
@@ -103,17 +133,55 @@ export default {
           console.log(err);
         });
     },
-    addConfig(form) {
-      let [a, b] = form.state.split("|"); // es6 数组解构赋值
+    addConfig() {
+      let [a, b] = this.form.state.split("|"); // es6 数组解构赋值
+      let check = 0;
+      for (let x of this.config) {
+        if (x.state === b) {
+          check = 1;
+          this.$message.error("参数规则已存在");
+          break;
+        }
+      }
+      if (check === 0) {
+        this.axios({
+          url: "http://localhost:3000/api/addConfig",
+          params: {
+            token: localStorage.getItem("user_token"),
+            name: a,
+            state: b,
+            type: this.type,
+            value1: this.form.value1,
+            value2: this.form.value2
+          }
+        })
+          .then(res => {
+            // console.log(res);
+            if (res.data.appcode === "1") {
+              this.$router.go(0);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
+    changeBtn(index, row) {
+      this.changeForm.state = `${row.name}|${row.state}`;
+      this.changeForm.value1 = row.value1;
+      this.changeForm.value2 = row.value2;
+      this.configChangeVisible = true;
+    },
+    changeConfig() {
+      let [a, b] = this.changeForm.state.split("|"); // es6 数组解构赋值
       this.axios({
-        url: "http://localhost:3000/api/addConfig",
+        url: "http://localhost:3000/api/changeConfig",
         params: {
           token: localStorage.getItem("user_token"),
-          name: a,
-          state: b,
           type: this.type,
-          value1: form.value1,
-          value2: form.value2
+          state: b,
+          value1: this.changeForm.value1,
+          value2: this.changeForm.value2
         }
       })
         .then(res => {
@@ -121,21 +189,6 @@ export default {
           if (res.data.appcode === "1") {
             this.$router.go(0);
           }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    changeConfig() {
-      this.axios({
-        url: "http://localhost:3000/api/changeConfig",
-        params: {
-          token: localStorage.getItem("user_token"),
-          type: this.type
-        }
-      })
-        .then(res => {
-          console.log(res);
         })
         .catch(err => {
           console.log(err);

@@ -8,6 +8,7 @@
       :header-cell-style="{background:'#f5f7fa'}"
       border
       class="weather-station-table"
+      height="200"
     >
       <el-table-column prop="fd_id" label="设备ID" align="center"></el-table-column>
       <el-table-column prop="area" label="区域" align="center"></el-table-column>
@@ -38,7 +39,7 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           this.warning = [];
           // this.warning = res.data.data;
           this.warning = res.data;
