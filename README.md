@@ -4,7 +4,13 @@
 
 ![image](https://github.com/chenyanng/vue-app/blob/master/img/home.png)
 
-![image](https://github.com/chenyanng/vue-app/blob/master/img/device.png)
+![image](https://github.com/chenyanng/vue-app/blob/master/img/weather.png)
+
+![image](https://github.com/chenyanng/vue-app/blob/master/img/soil.png)
+
+![image](https://github.com/chenyanng/vue-app/blob/master/img/greenhouse.png)
+
+![image](https://github.com/chenyanng/vue-app/blob/master/img/crops.png)
 
 ![image](https://github.com/chenyanng/vue-app/blob/master/img/video.png)
 
