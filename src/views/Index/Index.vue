@@ -114,8 +114,6 @@ export default {
 }
 .bottom-content {
   display: flex;
-  height: 100%;
-  position: relative;
 }
 .button {
   width: 690px;

@@ -222,7 +222,7 @@ export default {
     this.getChartData(this.info.fd_id, this.activeKey, this.activeDate);
     // 每10秒更新一次数据
     this.update = setInterval(() => {
-      console.log("3更新数据！");
+      // console.log("3更新数据！");
       this.activeDate = this.getNowDate();
       this.getChartData(this.info.fd_id, this.activeKey, this.activeDate);
     }, 10000);
