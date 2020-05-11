@@ -38,10 +38,6 @@ export default {
     // 获得气象站实时数据
     getWeatherStationState() {
       this.axios({
-        // url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getrealtimedata',
-        // params: {
-        //   token: localStorage.getItem('user_token')
-        // }
         url: "http://localhost:3000/api/deviceInfo",
         params: {
           token: localStorage.getItem("user_token"),
@@ -49,14 +45,10 @@ export default {
         }
       })
         .then(res => {
-          // console.log(res);
           this.weatherStationState = [];
           for (let i in res.data) {
-            // if (res.data.data[i].species == "weather_station") {
             this.weatherStationState.push(res.data[i]);
-            // }
           }
-          // console.log(this.weatherStationState);
           this.weatherStationFlag = true;
         })
         .catch(err => {

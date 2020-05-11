@@ -156,13 +156,6 @@ export default {
       this.option.xAxis.data = [];
       this.option.series[0].data = [];
       this.axios({
-        // 这里填温室参数查询折线图的api
-        // url: "",
-        // params: {
-        //   token: localStorage.getItem("user_token"),
-        //   fd_id: id,
-        //   date: date
-        // }
         url: "http://localhost:3000/api/deviceInfoDate",
         params: {
           token: localStorage.getItem("user_token"),
@@ -172,7 +165,6 @@ export default {
         }
       })
         .then(res => {
-          // console.log(res);
           for (let i in res.data) {
             this.option.xAxis.data[i] = res.data[i].date.substr(11, 8);
             this.option.series[0].data[i] = res.data[i][key];
@@ -208,12 +200,10 @@ export default {
     stateClick(scope) {
       this.activeKey = scope.row.key;
       this.option.yAxis.name = scope.row.name;
-      // console.log(this.activeKey);
       this.getChartData(this.info.fd_id, this.activeKey, this.activeDate);
     },
     // 日期点击事件
     dateClick() {
-      // console.log(this.activeDate);
       this.getChartData(this.info.fd_id, this.activeKey, this.activeDate);
     }
   },
@@ -222,7 +212,6 @@ export default {
     this.getChartData(this.info.fd_id, this.activeKey, this.activeDate);
     // 每10秒更新一次数据
     this.update = setInterval(() => {
-      // console.log("3更新数据！");
       this.activeDate = this.getNowDate();
       this.getChartData(this.info.fd_id, this.activeKey, this.activeDate);
     }, 10000);

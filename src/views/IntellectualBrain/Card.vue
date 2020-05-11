@@ -125,7 +125,6 @@ export default {
         }
       })
         .then(res => {
-          // console.log(res);
           this.config = [];
           this.config = res.data;
         })
@@ -161,7 +160,6 @@ export default {
           }
         })
           .then(res => {
-            // console.log(res);
             if (res.data.appcode === "1") {
               this.$router.go(0);
             }
@@ -191,7 +189,6 @@ export default {
         }
       })
         .then(res => {
-          // console.log(res);
           if (res.data.appcode === "1") {
             this.$router.go(0);
           }
@@ -210,7 +207,6 @@ export default {
         }
       })
         .then(res => {
-          // console.log(res);
           if (res.data.appcode === "1") {
             this.$router.go(0);
           }

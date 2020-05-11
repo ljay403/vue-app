@@ -32,16 +32,13 @@ export default {
     // 获得预警信息
     getWarning() {
       this.axios({
-        // url: "http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getwarning",
         url: "http://localhost:3000/api/warning",
         params: {
           token: localStorage.getItem("user_token")
         }
       })
         .then(res => {
-          // console.log(res);
           this.warning = [];
-          // this.warning = res.data.data;
           this.warning = res.data;
         })
         .catch(err => {
@@ -53,7 +50,6 @@ export default {
     this.getWarning();
     // 每10秒更新一次数据
     this.update = setInterval(() => {
-      // console.log("更新数据！");
       this.getWarning();
     }, 10000);
   },

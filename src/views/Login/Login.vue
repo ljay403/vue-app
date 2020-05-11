@@ -48,21 +48,14 @@ export default {
       } else {
         this.axios({
           method: "post",
-          // url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.loginUser1',
           url: "http://localhost:3000/api/login",
-          // params: {
-          //   account: this.param.account,
-          //   password: this.param.password
-          // }
           data: {
             account: this.param.account,
             password: this.param.password
           }
         })
           .then(res => {
-            // console.log(res);
             if (res.data.appcode === "1") {
-              // localStorage.setItem("user_token", res.data.data.token);
               localStorage.setItem("user_token", res.data.token);
               this.$message.success(res.data.appmsg);
               this.$router.push("/");

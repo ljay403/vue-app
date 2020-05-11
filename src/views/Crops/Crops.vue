@@ -38,10 +38,6 @@ export default {
     // 获得农作物生长参数实时数据
     getCropsState() {
       this.axios({
-        // url: 'http://60.190.23.22:8889/fertilizer_distributor/api/do.jhtml?router=appApiService.getrealtimedata',
-        // params: {
-        //   token: localStorage.getItem('user_token')
-        // }
         url: "http://localhost:3000/api/deviceInfo",
         params: {
           token: localStorage.getItem("user_token"),
@@ -49,14 +45,10 @@ export default {
         }
       })
         .then(res => {
-          // console.log(res);
           this.cropsState = [];
           for (let i in res.data) {
-            // if (res.data[i].species == 'crops') {
             this.cropsState.push(res.data[i]);
-            // }
           }
-          // console.log(this.cropsState);
           this.cropsFlag = true;
         })
         .catch(err => {
@@ -68,7 +60,6 @@ export default {
     this.getCropsState();
     // 每10秒更新一次数据
     this.update = setInterval(() => {
-      // console.log("更新数据！");
       this.getCropsState();
     }, 10000);
   },

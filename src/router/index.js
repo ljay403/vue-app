@@ -15,9 +15,9 @@ const routes = [
       { path: "/soil", name: "soil", meta: { title: "土壤指标" }, component: () => import("../views/Soil/Soil.vue") },
       { path: "/greenhouse", name: "greenhouse", meta: { title: "温室环境参数" }, component: () => import("../views/Greenhouse/Greenhouse.vue") },
       { path: "/crops", name: "crops", meta: { title: "农作物生长参数" }, component: () => import("../views/Crops/Crops.vue") },
-      { path: "/remotecontrol", name: "remotecontrol", meta: { title: "远程控制台" }, component: () => import("../views/RemoteControl/RemoteControl.vue") },
+      // { path: "/remotecontrol", name: "remotecontrol", meta: { title: "远程控制台" }, component: () => import("../views/RemoteControl/RemoteControl.vue") },
       { path: "/video", name: "video", meta: { title: "现场监控" }, component: () => import("../views/Video/Video.vue") },
-      { path: "/brain", name: "brain", meta: { title: "智慧大脑" }, component: () => import("../views/IntellectualBrain/IntellectualBrain.vue") }
+      { path: "/brain", name: "brain", meta: { title: "智慧大脑" }, component: () => import("../views/IntellectualBrain/IntellectualBrain.vue") },
     ]
   },
   { path: "/login", name: "login", meta: { title: "登录界面" }, component: () => import("../views/Login/Login.vue") }
