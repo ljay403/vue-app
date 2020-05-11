@@ -168,6 +168,7 @@ export default {
           })
           .catch(err => {
             console.log(err);
+            this.$message.error("添加失败");
           });
       }
     },

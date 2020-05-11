@@ -12,8 +12,6 @@ export default new Vuex.Store({
       // 经纬度
       lon: "",
       lat: "",
-      // // 设备id
-      // id: [],
       // 萤石云平台AccessToken
       accessToken: "",
       // 摄像头列表
@@ -38,17 +36,11 @@ export default new Vuex.Store({
       state.userInfo.name = payload.name;
       state.userInfo.lon = payload.lon;
       state.userInfo.lat = payload.lat;
-      // console.log(state.userInfo);
     },
     // 获得其他用户信息
     getOthersInfo(state, payload) {
       state.othersInfo = payload;
-      // console.log(state.otherUserInfo);
     },
-    // // 获得用户的所有硬件id
-    // getUserId(state, payload) {
-    //   state.userInfo.id = payload;
-    // },
     // 折叠/拉出左侧菜单
     collapseChage(state) {
       state.collapse = !state.collapse;
